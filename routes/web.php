@@ -1,11 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\TeamsController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\AdminDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +19,18 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Admin
+// login
+Route::get('/login', [AuthController::class, 'index']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.auth');
 
 // Users
+
+
+Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin');
 Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
-Route::get('/admin/users/create', [UserController::class, 'create']);
+Route::get('/admin/users/{user:name}/show', [UserController::class, 'show'])->name('user.show');
+Route::get('/admin/users/create', [UserController::class, 'create'])->name('user.create');
 Route::post('/admin/users/store', [UserController::class, 'store'])->name('user.store');
 
 // Team
@@ -35,6 +45,11 @@ Route::post('/admin/roles', [RolesController::class, 'store'])->name('roles.stor
 Route::get('/admin/locations', [LocationsController::class, 'index']);
 Route::post('/admin/locations', [LocationsController::class, 'store'])->name('locations.store');
 
+
+
+
+// User
+Route::get('/user', [UserDashboardController::class,'index'])->name('user');
 
 Route::get('/', function () {
     return view('welcome');

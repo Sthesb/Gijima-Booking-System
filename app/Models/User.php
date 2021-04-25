@@ -18,9 +18,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
-        ''
+        'employeeNo',
+        'team_id',
+        'location_id',
+        'role_id',
     ];
 
     /**
@@ -41,4 +45,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function location()
+    {
+        return $this->only(Location::class);
+    }
+    public function role()
+    {
+        return $this->hasOne(Role::class);
+    }
+    public function team()
+    {
+        return $this->hasOne(Team::class);
+    }
 }
